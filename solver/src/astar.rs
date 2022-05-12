@@ -70,7 +70,7 @@ fn astar(g: Board, s: &Board, m: fn(&Board, &Board) -> usize) -> (String, usize,
     let mut processed = 1;
 
     let mut md:usize = 1;
-
+    let mut visited:usize = 1;
     if &g==s {
         return (s.path.clone(), 1, 1, 0);
     }
@@ -86,10 +86,10 @@ fn astar(g: Board, s: &Board, m: fn(&Board, &Board) -> usize) -> (String, usize,
         }
 
         processed+=1;
-        if g==v{
-            return (v.path, t.len(), processed, md);
-        }
         t.insert(v.clone());
+        if g==v{
+            return (v.path, visited, processed, md);
+        }
         let neighbors = v.find_neighbors([0, 1, 2, 3]);
         for n in neighbors{
 
@@ -98,6 +98,7 @@ fn astar(g: Board, s: &Board, m: fn(&Board, &Board) -> usize) -> (String, usize,
                 let f = m(&n, &g);
                 match p.entry(n.clone()){
                     Entry::Vacant(_) =>{
+                        visited+=1;
                         p.push(n, Reverse(f));
                     }
 

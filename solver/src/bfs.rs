@@ -58,7 +58,7 @@ fn bfs_alg(g: Board, s: &Board, d: [usize; 4]) -> (String, usize, usize, usize) 
     if g == *s {
         return (s.path.clone(), 1, 1, 0);
     }
-    let mut processed = 1;
+    let mut processed = 0;
 
     let mut q: VecDeque<Board> = VecDeque::new();
     let mut u: HashSet<Board> = HashSet::new();

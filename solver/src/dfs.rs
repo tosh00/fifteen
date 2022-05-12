@@ -26,7 +26,7 @@ pub fn solve(directions: [usize; 4], source: String, solution: String, stats: St
 
     let mut all: HashSet<Board> = HashSet::new();
     let mut processed: usize = 0;
-    let mut visited: usize = 0;
+    let mut visited: usize = 1;
     let mut md: usize = 0;
 
     let time = Instant::now();
@@ -58,23 +58,25 @@ pub fn solve(directions: [usize; 4], source: String, solution: String, stats: St
 
 fn dfs_alg(g: &Board, v: &Board, d: [usize; 4], t: &mut HashSet<Board>, level: usize, processed: &mut usize, md: &mut usize, visited: &mut usize) -> (String, usize, usize, usize){
     
-    *processed += 1;
+    
     if v.path.len() > *md{
         *md = v.path.len();
     }
     if v == g {
 
-        return (v.path.clone(), t.len(), *processed,* md)
+        return (v.path.clone(), *visited, *processed,* md)
     }
     t.insert(v.clone());
+    *processed += 1;
     for n in v.find_neighbors(d){
-        *visited+=1;
+        
         if level >= n.path.len() && !t.contains(&n){
+            *visited+=1;
             let r = dfs_alg(g, &n, d, t, level, processed, md, visited);
             if r.0 != "-1"{
                 return r;
             }
         }
     }
-    return ("-1".to_owned(), t.len(), *processed,* md);
+    return ("-1".to_owned(), *visited, *processed,* md);
 }
