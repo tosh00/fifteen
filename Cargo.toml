@@ -1,0 +1,23 @@
+[package]
+name = "fifteen"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+board = {path = "./board", version = "0.1.0"}
+generator = {path = "./generator", version = "0.1.0"}
+solver = {path = "./solver", version = "0.1.0"}
+checker = {path = "./checker", version = "0.1.0"}
+
+
+
+[workspace]
+members = [
+    "board",
+    "generator",
+    "solver",
+    "checker",
+]
