@@ -67,7 +67,7 @@ pub fn solve(method: usize, source: String, solution: String, stats: String) {
 
 
 fn astar(g: Board, s: &Board, m: fn(&Board, &Board) -> usize) -> (String, usize, usize, usize){
-    let mut processed = 1;
+    let mut processed = 0;
 
     let mut md:usize = 1;
     let mut visited:usize = 1;
@@ -85,12 +85,12 @@ fn astar(g: Board, s: &Board, m: fn(&Board, &Board) -> usize) -> (String, usize,
             md = v.path.len();
         }
 
-        processed+=1;
         t.insert(v.clone());
         if g==v{
             return (v.path, visited, processed, md);
         }
         let neighbors = v.find_neighbors([0, 1, 2, 3]);
+        processed+=1;
         for n in neighbors{
 
             if !t.contains(&n){
@@ -104,7 +104,8 @@ fn astar(g: Board, s: &Board, m: fn(&Board, &Board) -> usize) -> (String, usize,
 
                     Entry::Occupied(entry) if *entry.get_priority() < Reverse(f) => {
                         // Have found better path to node in queue
-                        entry.set_priority(Reverse(f));
+                        p.remove_entry(&n);
+                        p.push(n, Reverse(f));
                     }
                     _ => {}
                 }
